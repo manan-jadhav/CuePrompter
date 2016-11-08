@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name">CuePrompter</string>
+  <string name="content_provider_authority">in.curos.cueprompter</string>
 </resources>
