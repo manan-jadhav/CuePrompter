@@ -15,10 +15,14 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
+
     <provider
-        android:authorities="@string/content_provider_authority"
         android:name=".data.ScriptsProvider"
+        android:authorities="@string/content_provider_authority"
         android:exported="false"/>
+
+    <activity android:name=".AddScriptActivity">
+    </activity>
   </application>
 
 </manifest>

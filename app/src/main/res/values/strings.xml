@@ -1,4 +1,11 @@
 <resources>
   <string name="app_name">CuePrompter</string>
   <string name="content_provider_authority">in.curos.cueprompter</string>
+  <string name="no_scripts_available">No scripts available</string>
+  <string name="add_script">Add New Script</string>
+  <string name="script_title">Script Title</string>
+  <string name="script_content">Script Content</string>
+  <string name="save">Save</string>
+  <string name="error_title_length">Title must be atleast 5 characters</string>
+  <string name="error_content_length">Content must be atleast 20 characters</string>
 </resources>

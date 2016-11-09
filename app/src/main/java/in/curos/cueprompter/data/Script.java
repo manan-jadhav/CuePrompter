@@ -1,6 +1,8 @@
 package in.curos.cueprompter.data;
 
 import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
 
 /**
  * Created by curos on 6/11/16.
@@ -19,6 +21,12 @@ public class Script {
         script.setContent(contentValues.getAsString(CuePrompterContract.ScriptEntry.CONTENT));
         script.setTimestamp(contentValues.getAsLong(CuePrompterContract.ScriptEntry.TIMESTAMP));
         return script;
+    }
+
+    public static Script populate(Cursor cursor) {
+        ContentValues contentValues = new ContentValues();
+        DatabaseUtils.cursorRowToContentValues(cursor, contentValues);
+        return populate(contentValues);
     }
 
     public Long getId() {
