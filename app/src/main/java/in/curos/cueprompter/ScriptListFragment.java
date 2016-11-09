@@ -40,10 +40,14 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
     TextView noScriptsView;
     ScriptListAdapter adapter;
 
+    private boolean dualScreenMode = false;
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getLoaderManager().initLoader(0, null, this);
+
+        dualScreenMode = ((MainActivity) getActivity()).isDualScreen();
 
         adapter = new ScriptListAdapter(getContext(), new ArrayList<Script>());
     }
@@ -114,7 +118,9 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
             adapter = new ScriptListAdapter(getContext(), scripts);
             scriptsRecyclerView.setAdapter(adapter);
 
-            setRecyclerViewVisibility(scripts.size() > 0);
+            setRecyclerViewVisibility(true);
+        } else {
+            setRecyclerViewVisibility(false);
         }
     }
 
@@ -136,6 +142,8 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
         private ArrayList<Integer> scriptsBeingRemoved = new ArrayList<>();
         private boolean undoShown = false;
         private HashMap<Integer, Runnable> removalRunnables = new HashMap<>();
+
+        private int selected = 0;
 
         ScriptListAdapter(Context context, ArrayList<Script> scripts)
         {
@@ -181,7 +189,7 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
 
         @Override
         public void onBindViewHolder(final VH holder, int position) {
-            final Script script = scripts.get(position);
+            Script script = scripts.get(position);
 
             if (scriptsBeingRemoved.contains(position)) {
                 holder.contentContainer.measure(0, 0);
@@ -199,6 +207,9 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
                     }
                 });
             } else {
+                if (dualScreenMode && selected == position) {
+                    holder.contentContainer.setBackgroundColor(getResources().getColor(R.color.divider));
+                }
                 holder.undo.setVisibility(View.GONE);
                 holder.contentContainer.setVisibility(View.VISIBLE);
                 holder.title.setText(script.getTitle());
@@ -210,7 +221,10 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
                 holder.contentContainer.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ((MainActivity) getActivity()).showDetailScreen(script.getId().toString());
+                        notifyItemChanged(selected);
+                        selected = holder.getAdapterPosition();
+                        notifyItemChanged(selected);
+                        ((MainActivity) getActivity()).showDetailScreen(scripts.get(selected).getId().toString());
                     }
                 });
             }

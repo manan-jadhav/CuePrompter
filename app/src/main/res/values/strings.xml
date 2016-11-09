@@ -12,4 +12,5 @@
   <string name="edit_script">Edit Script</string>
   <string name="start_teleprompter">Start Teleprompter</string>
   <string name="script_details">Script Details</string>
+  <string name="select_item">Select Script from the list to see details</string>
 </resources>

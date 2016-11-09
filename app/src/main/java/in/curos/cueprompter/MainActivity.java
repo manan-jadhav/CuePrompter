@@ -1,12 +1,20 @@
 package in.curos.cueprompter;
 
+import android.database.Cursor;
+import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+import in.curos.cueprompter.data.Script;
+import in.curos.cueprompter.data.ScriptsProvider;
+
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private int LEFT_FRAGMENT_CONTAINER = R.id.left_fragment_container;
     private int RIGHT_FRAGMENT_CONTAINER = R.id.right_fragment_container;
@@ -14,7 +22,14 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean DUAL_SCREEN_MODE;
 
+    public boolean isDualScreen()
+    {
+        return DUAL_SCREEN_MODE;
+    }
+
     private boolean HOME = true;
+
+    Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (DUAL_SCREEN_MODE) {
             MAIN_FRAGMENT_CONTAINER = RIGHT_FRAGMENT_CONTAINER;
+            getSupportLoaderManager().initLoader(0, null, this);
         } else {
             MAIN_FRAGMENT_CONTAINER = LEFT_FRAGMENT_CONTAINER;
         }
@@ -32,14 +48,19 @@ public class MainActivity extends AppCompatActivity {
         showMainScreen();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (DUAL_SCREEN_MODE)
+            getSupportLoaderManager().restartLoader(0, null, this);
+    }
+
     public void showMainScreen()
     {
         HOME = true;
         getSupportFragmentManager()
                 .beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
                 .replace(LEFT_FRAGMENT_CONTAINER, new ScriptListFragment())
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -56,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
                 .replace(MAIN_FRAGMENT_CONTAINER, fragment)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit();
@@ -64,9 +84,32 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (!HOME)
+        if (!HOME && !isDualScreen())
             showMainScreen();
         else
             finish();
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(this, ScriptsProvider.SCRIPTS_BASE_URI, null, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        data.moveToFirst();
+        if (data.getCount() >= 1) {
+            final Script script = Script.populate(data);
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    showDetailScreen(script.getId().toString());
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
     }
 }

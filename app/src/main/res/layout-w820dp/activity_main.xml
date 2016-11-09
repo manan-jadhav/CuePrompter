@@ -11,9 +11,14 @@
       android:layout_width="0dp"
       android:layout_weight="5"
       android:layout_height="match_parent"/>
+  <View
+      android:background="@color/divider"
+      android:layout_height="match_parent"
+      android:layout_width="1dp"
+      />
   <FrameLayout
     android:id="@+id/right_fragment_container"
     android:layout_width="0dp"
     android:layout_weight="8"
-    android:layout_height="match_parent"/>
+    android:layout_height="match_parent" />
 </LinearLayout>

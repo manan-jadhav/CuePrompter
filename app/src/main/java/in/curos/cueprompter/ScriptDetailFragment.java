@@ -32,6 +32,7 @@ public class ScriptDetailFragment extends Fragment implements LoaderManager.Load
     String scriptId;
     Script script;
 
+    MainActivity activity;
     ActionBar actionBar;
 
     TextView timestamp, contents;
@@ -51,17 +52,26 @@ public class ScriptDetailFragment extends Fragment implements LoaderManager.Load
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().getSupportLoaderManager().restartLoader(0, null, this);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        actionBar = ((MainActivity) getActivity()).getSupportActionBar();
-        actionBar.setTitle(getString(R.string.script_details));
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        scriptId = getArguments().getString("id");
+        activity = ((MainActivity) getActivity());
+        actionBar = activity.getSupportActionBar();
+        if (! activity.isDualScreen()) {
+            actionBar.setTitle(getString(R.string.script_details));
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         setHasOptionsMenu(true);
-        scriptId = getArguments().getString("id");
 
-        getActivity().getSupportLoaderManager().initLoader(0, null, this);
+        getActivity().getSupportLoaderManager().initLoader((int) Long.parseLong(scriptId), null, this);
     }
 
     @Override
@@ -94,7 +104,9 @@ public class ScriptDetailFragment extends Fragment implements LoaderManager.Load
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         data.moveToFirst();
         script = Script.populate(data);
-        actionBar.setTitle(script.getTitle());
+        if (! activity.isDualScreen()) {
+            actionBar.setTitle(script.getTitle());
+        }
 
         calendar.setTimeInMillis(script.getTimestamp()*1000);
         timestamp.setText(dateFormat.format(calendar.getTime()));
