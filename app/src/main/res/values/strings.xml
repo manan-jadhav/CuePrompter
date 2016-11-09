@@ -10,4 +10,6 @@
   <string name="error_content_length">Content must be atleast 20 characters</string>
   <string name="undo">UNDO</string>
   <string name="edit_script">Edit Script</string>
+  <string name="start_teleprompter">Start Teleprompter</string>
+  <string name="script_details">Script Details</string>
 </resources>

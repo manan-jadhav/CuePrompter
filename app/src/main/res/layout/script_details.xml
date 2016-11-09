@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:paddingStart="@dimen/activity_horizontal_margin"
+              android:paddingEnd="@dimen/activity_horizontal_margin"
+              android:paddingTop="@dimen/activity_vertical_margin"
+              android:paddingBottom="@dimen/activity_vertical_margin"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+  <TextView
+      android:id="@+id/timestamp"
+      android:textSize="16sp"
+      android:textAllCaps="true"
+      android:textStyle="bold"
+      android:layout_marginBottom="16dp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
+  <TextView
+      android:id="@+id/script_content"
+      android:textSize="24sp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
+</LinearLayout>

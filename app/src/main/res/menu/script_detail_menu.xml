@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+  <item
+      android:id="@+id/edit"
+      android:icon="@drawable/ic_mode_edit_white_24dp"
+      android:title="@string/edit_script"
+      app:showAsAction="always"/>
+  <item
+      android:id="@+id/play"
+      android:icon="@drawable/ic_play_circle_outline_white_24dp"
+      android:title="@string/start_teleprompter"
+      app:showAsAction="always"/>
+</menu>

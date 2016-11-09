@@ -129,7 +129,7 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
         private Context context;
         private ArrayList<Script> scripts = new ArrayList<>();
         private Calendar calendar = new GregorianCalendar();
-        private SimpleDateFormat format = new SimpleDateFormat("d MMM");
+        private SimpleDateFormat format = new SimpleDateFormat("d MMM yy");
 
         private Handler handler = new Handler();
 
@@ -210,9 +210,7 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
                 holder.contentContainer.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(getContext(), EditScriptActivity.class);
-                        intent.putExtra("id", script.getId().toString());
-                        startActivity(intent);
+                        ((MainActivity) getActivity()).showDetailScreen(script.getId().toString());
                     }
                 });
             }
