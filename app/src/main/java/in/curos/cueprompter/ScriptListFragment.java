@@ -181,7 +181,7 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
 
         @Override
         public void onBindViewHolder(final VH holder, int position) {
-            Script script = scripts.get(position);
+            final Script script = scripts.get(position);
 
             if (scriptsBeingRemoved.contains(position)) {
                 holder.contentContainer.measure(0, 0);
@@ -206,6 +206,15 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
 
                 calendar.setTimeInMillis(script.getTimestamp() * 1000);
                 holder.date.setText(format.format(calendar.getTime()));
+
+                holder.contentContainer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getContext(), EditScriptActivity.class);
+                        intent.putExtra("id", script.getId().toString());
+                        startActivity(intent);
+                    }
+                });
             }
         }
 

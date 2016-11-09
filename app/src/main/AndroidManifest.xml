@@ -23,6 +23,8 @@
 
     <activity android:name=".AddScriptActivity">
     </activity>
+    <activity android:name=".EditScriptActivity">
+    </activity>
   </application>
 
 </manifest>
