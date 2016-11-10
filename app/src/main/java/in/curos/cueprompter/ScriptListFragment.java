@@ -17,7 +17,11 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -28,6 +32,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
+import in.curos.cueprompter.data.CuePrompterContract;
 import in.curos.cueprompter.data.Script;
 import in.curos.cueprompter.data.ScriptsProvider;
 
@@ -41,6 +46,12 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
     ScriptListAdapter adapter;
 
     private boolean dualScreenMode = false;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -90,6 +101,23 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
         return new CursorLoader(getContext(), ScriptsProvider.SCRIPTS_BASE_URI, null, null, null, null);
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.script_list_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add_dummy_content:
+                CuePrompterContract.addDummyContent(getContext());
+                onResume();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void setRecyclerViewVisibility(boolean show)
     {
         if (show) {
@@ -113,7 +141,7 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
             do {
                 scripts.add(Script.populate(data));
             } while (data.moveToNext());
-            data.close();
+            //data.close();
 
             adapter = new ScriptListAdapter(getContext(), scripts);
             scriptsRecyclerView.setAdapter(adapter);
@@ -139,9 +167,9 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
 
         private Handler handler = new Handler();
 
-        private ArrayList<Integer> scriptsBeingRemoved = new ArrayList<>();
+        private Script scriptBeingRemoved;
         private boolean undoShown = false;
-        private HashMap<Integer, Runnable> removalRunnables = new HashMap<>();
+        private Runnable runnable;
 
         private int selected = 0;
 
@@ -155,31 +183,37 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
             return undoShown;
         }
 
-        public boolean isBeingRemoved(int pos) {
-            return scriptsBeingRemoved.contains(pos);
-        }
-
         public void remove(final int pos)
         {
             final Script script = scripts.get(pos);
-            scriptsBeingRemoved.add(pos);
+            scriptBeingRemoved = script;
             notifyItemChanged(pos);
             undoShown = true;
 
-            Runnable runnable = new Runnable() {
+            runnable = new Runnable() {
                 @Override
                 public void run() {
                     getContext().getContentResolver()
                             .delete(ScriptsProvider.SCRIPT_BASE_URI.buildUpon().appendPath(script.getId().toString()).build(), null, null);
-                    scripts.remove(scripts.indexOf(script));
-                    scriptsBeingRemoved.remove(scriptsBeingRemoved.indexOf(pos));
+
+                    scripts.remove(script);
+                    scriptBeingRemoved = null;
                     undoShown = false;
                     notifyItemRemoved(pos);
                     setRecyclerViewVisibility(scripts.size() > 0);
+
+                    if (selected == pos)
+                    {
+                        selected = 0;
+                        notifyItemChanged(selected);
+                    }
+
+                    if (dualScreenMode)
+                        ((MainActivity) getActivity()).onResume();
                 }
             };
+
             handler.postDelayed(runnable, 2000);
-            removalRunnables.put(pos, runnable);
         }
 
         @Override
@@ -191,7 +225,7 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
         public void onBindViewHolder(final VH holder, int position) {
             Script script = scripts.get(position);
 
-            if (scriptsBeingRemoved.contains(position)) {
+            if (script.equals(scriptBeingRemoved)) {
                 holder.contentContainer.measure(0, 0);
                 holder.undo.getLayoutParams().height = holder.contentContainer.getMeasuredHeight();
                 holder.undo.setVisibility(View.VISIBLE);
@@ -200,9 +234,9 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
                     @Override
                     public void onClick(View view) {
                         int pos = holder.getAdapterPosition();
-                        handler.removeCallbacks(removalRunnables.get(pos));
-                        int index = scriptsBeingRemoved.indexOf(pos);
-                        scriptsBeingRemoved.remove(index);
+                        handler.removeCallbacks(runnable);
+                        scriptBeingRemoved = null;
+                        undoShown = false;
                         notifyItemChanged(pos);
                     }
                 });
@@ -273,7 +307,7 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
         @Override
         public int getSwipeDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
             ScriptListAdapter adapter = (ScriptListAdapter) recyclerView.getAdapter();
-            if (adapter.isBeingRemoved(viewHolder.getAdapterPosition())) {
+            if (adapter.isUndoShown()) {
                 return 0;
             }
             return super.getSwipeDirs(recyclerView, viewHolder);

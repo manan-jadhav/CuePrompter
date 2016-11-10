@@ -29,6 +29,15 @@ public class Script {
         return populate(contentValues);
     }
 
+    public ContentValues toContentValues()
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(CuePrompterContract.ScriptEntry.TITLE, title);
+        contentValues.put(CuePrompterContract.ScriptEntry.CONTENT, content);
+
+        return contentValues;
+    }
+
     public Long getId() {
         return id;
     }

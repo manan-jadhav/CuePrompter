@@ -13,4 +13,6 @@
   <string name="start_teleprompter">Start Teleprompter</string>
   <string name="script_details">Script Details</string>
   <string name="select_item">Select Script from the list to see details</string>
+  <string name="choose_color">Choose Color Scheme</string>
+  <string name="add_dummy_content">Add Dummy Content</string>
 </resources>

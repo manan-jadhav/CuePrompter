@@ -76,6 +76,8 @@ public class ScriptDetailFragment extends Fragment implements LoaderManager.Load
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if (! activity.isDualScreen())
+            menu.setGroupVisible(R.id.add_dummy_content_group, false);
         inflater.inflate(R.menu.script_detail_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -91,6 +93,11 @@ public class ScriptDetailFragment extends Fragment implements LoaderManager.Load
                 intent.putExtra("id", scriptId);
                 startActivity(intent);
                 break;
+            case R.id.play:
+                Intent intent2 = new Intent(getContext(), TeleprompterActivity.class);
+                intent2.putExtra("id", scriptId);
+                startActivity(intent2);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -103,14 +110,16 @@ public class ScriptDetailFragment extends Fragment implements LoaderManager.Load
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         data.moveToFirst();
-        script = Script.populate(data);
-        if (! activity.isDualScreen()) {
-            actionBar.setTitle(script.getTitle());
-        }
+        if (data.getCount() != 0) {
+            script = Script.populate(data);
+            if (! activity.isDualScreen()) {
+                actionBar.setTitle(script.getTitle());
+            }
 
-        calendar.setTimeInMillis(script.getTimestamp()*1000);
-        timestamp.setText(dateFormat.format(calendar.getTime()));
-        contents.setText(script.getContent());
+            calendar.setTimeInMillis(script.getTimestamp()*1000);
+            timestamp.setText(dateFormat.format(calendar.getTime()));
+            contents.setText(script.getContent());
+        }
     }
 
     @Override

@@ -25,6 +25,8 @@
     </activity>
     <activity android:name=".EditScriptActivity">
     </activity>
+    <activity android:name=".TeleprompterActivity" android:theme="@style/TelePrompter">
+    </activity>
   </application>
 
 </manifest>
