@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onResume();
         if (DUAL_SCREEN_MODE)
             getSupportLoaderManager().restartLoader(0, null, this);
+        else
+            showMainScreen();
     }
 
     public void showMainScreen()
