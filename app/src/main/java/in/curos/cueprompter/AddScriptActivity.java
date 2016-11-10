@@ -1,15 +1,14 @@
 package in.curos.cueprompter;
 
 import android.content.ContentValues;
+import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import in.curos.cueprompter.data.CuePrompterContract;
-import in.curos.cueprompter.data.Script;
 import in.curos.cueprompter.data.ScriptsProvider;
 
 public class AddScriptActivity extends AppCompatActivity {

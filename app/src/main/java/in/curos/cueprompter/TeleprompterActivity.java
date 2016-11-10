@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -13,13 +14,11 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,25 +77,10 @@ public class TeleprompterActivity extends AppCompatActivity implements LoaderMan
 
         scriptId = getIntent().getExtras().getString("id");
 
-        contentContainer = (ScrollView) findViewById(R.id.content_scrollview);
         content = (TextView) findViewById(R.id.content);
+        content.setMovementMethod((new ScrollingMovementMethod()));
         play = findViewById(R.id.play);
         pause = findViewById(R.id.pause);
-
-        contentContainer.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (isPlaying) pause();
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        if (isPlaying) play();
-                        return true;
-                }
-                return false;
-            }
-        });
 
         setupDisplay();
 
@@ -111,7 +95,7 @@ public class TeleprompterActivity extends AppCompatActivity implements LoaderMan
 
     public void scrollText()
     {
-        contentContainer.scrollBy(0, (int) (2 * playSpeed));
+        content.scrollBy(0, (int) (2 * playSpeed));
     }
 
     public void setupDisplay()

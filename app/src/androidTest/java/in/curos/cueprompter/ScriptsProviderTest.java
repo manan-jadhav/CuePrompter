@@ -2,11 +2,9 @@ package in.curos.cueprompter;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.net.Uri;
-import android.provider.Settings;
 import android.test.AndroidTestCase;
 
 import in.curos.cueprompter.data.CuePrompterContract.ScriptEntry;

@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by curos on 6/11/16.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
-    public static final int VERSION = 4;
+    public static final int VERSION = 5;
     public static final String DB_NAME = "cueprompter";
 
     public DatabaseHelper(Context context) {
@@ -23,7 +23,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL("DROP TABLE IF EXISTS " + CuePrompterContract.ScriptEntry.TABLE);
         onCreate(db);
     }
 }

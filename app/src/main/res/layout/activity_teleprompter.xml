@@ -47,17 +47,13 @@
       android:layout_toLeftOf="@id/decrease_size"
       style="@style/TelePrompter.PropertyIcon"
       android:src="@drawable/ic_zoom_in_white_24dp"/>
-  <ScrollView
-      android:id="@+id/content_scrollview"
-      android:layout_above="@id/decrease_size"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent">
     <TextView
         android:id="@+id/content"
+        android:layout_above="@id/decrease_size"
+        android:scrollbars="vertical"
         android:gravity="center_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-  </ScrollView>
+        android:layout_height="match_parent"/>
 
 
   <ImageView
