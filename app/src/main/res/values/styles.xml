@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
   <!-- Base application theme. -->
   <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -29,5 +29,11 @@
     <item name="android:layout_height">28dp</item>
     <item name="android:layout_margin">8dp</item>
     <item name="android:onClick">propertyClicked</item>
+  </style>
+
+  <style name="TelePrompter.PropertyStatus">
+    <item name="android:textSize" tools:ignore="SpUsage">18dp</item>
+    <item name="android:layout_margin">8dp</item>
+    <item name="android:textColor">@color/textPrimary</item>
   </style>
 </resources>

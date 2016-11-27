@@ -21,7 +21,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.Timer;
@@ -48,16 +47,14 @@ public class TeleprompterActivity extends AppCompatActivity implements LoaderMan
     private SharedPreferences sharedPreferences;
 
     private int backgroundColor;
-    private int textSize;
+    private int textSize, playSpeed;
     private boolean isPlaying = false;
-    private float playSpeed;
 
     private BackgroundChooserDialog dialog;
 
     private String scriptId;
 
-    private ScrollView contentContainer;
-    private TextView content;
+    private TextView content, speedDisplay, sizeDisplay;
     private View play, pause;
 
     private TimerTask timerTask;
@@ -71,9 +68,10 @@ public class TeleprompterActivity extends AppCompatActivity implements LoaderMan
         setContentView(R.layout.activity_teleprompter);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.edit().remove(PLAY_SPEED).commit();
         backgroundColor = getSchemeColor(sharedPreferences.getString(COLOR_SCHEME, BLACK));
         textSize = sharedPreferences.getInt(TEXT_SIZE, 46);
-        playSpeed = sharedPreferences.getFloat(PLAY_SPEED, 1);
+        playSpeed = sharedPreferences.getInt(PLAY_SPEED, 1);
 
         scriptId = getIntent().getExtras().getString("id");
 
@@ -81,6 +79,8 @@ public class TeleprompterActivity extends AppCompatActivity implements LoaderMan
         content.setMovementMethod((new ScrollingMovementMethod()));
         play = findViewById(R.id.play);
         pause = findViewById(R.id.pause);
+        speedDisplay = (TextView) findViewById(R.id.speed_display);
+        sizeDisplay = (TextView) findViewById(R.id.size_display);
 
         setupDisplay();
 
@@ -95,7 +95,7 @@ public class TeleprompterActivity extends AppCompatActivity implements LoaderMan
 
     public void scrollText()
     {
-        content.scrollBy(0, (int) (2 * playSpeed));
+        content.scrollBy(0, (2 * playSpeed));
     }
 
     public void setupDisplay()
@@ -104,6 +104,13 @@ public class TeleprompterActivity extends AppCompatActivity implements LoaderMan
         getWindow().setBackgroundDrawable(background);
 
         content.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
+        setupSpeedAndSizeDisplays();
+    }
+
+    protected void setupSpeedAndSizeDisplays()
+    {
+        sizeDisplay.setText(String.format("%dsp", textSize));
+        speedDisplay.setText(speedFormat.format(playSpeed) +"x");
     }
 
     public int getSchemeColor(String schemeName)
@@ -129,47 +136,38 @@ public class TeleprompterActivity extends AppCompatActivity implements LoaderMan
     {
         String property = v.getTag().toString();
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        String toast = "";
 
         switch (property) {
             case "text_size_increase":
                 textSize += 4;
                 editor.putInt(TEXT_SIZE, textSize);
-                toast = "Text Size : "+textSize;
                 break;
             case "text_size_decrease":
                 textSize -= 4;
                 editor.putInt(TEXT_SIZE, textSize);
-                toast = "Text Size : "+textSize;
                 break;
             case "speed_increase":
-                playSpeed += 0.5;
-                editor.putFloat(PLAY_SPEED, playSpeed);
-                toast = "Play Speed : "+ speedFormat.format(playSpeed) +"x";
+                playSpeed += 1;
+                editor.putInt(PLAY_SPEED, playSpeed);
                 break;
             case "speed_decrease":
-                playSpeed -= 0.5;
-                editor.putFloat(PLAY_SPEED, playSpeed);
-                toast = "Play Speed : "+ speedFormat.format(playSpeed) +"x";
+                playSpeed -= 1;
+                editor.putInt(PLAY_SPEED, playSpeed);
                 break;
             case "play":
                 play.setVisibility(View.GONE);
                 pause.setVisibility(View.VISIBLE);
                 isPlaying = true;
-                toast = "Playing";
                 play();
                 break;
             case "pause":
                 pause.setVisibility(View.GONE);
                 play.setVisibility(View.VISIBLE);
                 isPlaying = false;
-                toast = "Pause";
                 pause();
                 break;
         }
-
         editor.commit();
-        Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
         setupDisplay();
     }
 

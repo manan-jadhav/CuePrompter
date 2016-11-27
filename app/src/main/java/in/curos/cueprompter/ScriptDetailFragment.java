@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -15,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -36,6 +38,7 @@ public class ScriptDetailFragment extends Fragment implements LoaderManager.Load
     ActionBar actionBar;
 
     TextView timestamp, contents;
+    FloatingActionButton playButton;
 
     DateFormat dateFormat = new SimpleDateFormat("MMM dd,yyyy  hh:mm a");
     Calendar calendar = Calendar.getInstance();
@@ -47,6 +50,8 @@ public class ScriptDetailFragment extends Fragment implements LoaderManager.Load
 
         timestamp = (TextView) view.findViewById(R.id.timestamp);
         contents = (TextView) view.findViewById(R.id.script_content);
+
+        playButton = (FloatingActionButton) view.findViewById(R.id.play_fab);
 
         return view;
     }
@@ -67,6 +72,15 @@ public class ScriptDetailFragment extends Fragment implements LoaderManager.Load
         if (! activity.isDualScreen()) {
             actionBar.setTitle(getString(R.string.script_details));
             actionBar.setDisplayHomeAsUpEnabled(true);
+            playButton.setVisibility(View.VISIBLE);
+            playButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getContext(), TeleprompterActivity.class);
+                    intent.putExtra("id", scriptId);
+                    startActivity(intent);
+                }
+            });
         }
 
         setHasOptionsMenu(true);
@@ -76,10 +90,12 @@ public class ScriptDetailFragment extends Fragment implements LoaderManager.Load
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (! activity.isDualScreen())
-            menu.setGroupVisible(R.id.add_dummy_content_group, false);
-        inflater.inflate(R.menu.script_detail_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.script_detail_menu, menu);
+        if (! activity.isDualScreen()) {
+            menu.setGroupVisible(R.id.add_dummy_content_group, false);
+            menu.setGroupVisible(R.id.play_item_menu, false);
+        }
     }
 
     @Override

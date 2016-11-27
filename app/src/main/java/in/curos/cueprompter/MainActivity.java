@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private boolean HOME = true;
 
+    // scriptId of the detail screen
+    private String scriptId;
+
     Handler handler = new Handler();
 
     @Override
@@ -44,7 +47,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             MAIN_FRAGMENT_CONTAINER = LEFT_FRAGMENT_CONTAINER;
         }
 
-        showMainScreen();
+        if (savedInstanceState != null) {
+            scriptId = savedInstanceState.getString("script_id");
+        }
+        if (scriptId != null) {
+            showDetailScreen(scriptId);
+        } else {
+            showMainScreen();
+        }
     }
 
     @Override
@@ -64,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setTitle(getString(R.string.app_name));
+        Log.d("CUEPROMPTER", "show main screen");
     }
 
     public void showDetailScreen(String id)
@@ -71,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         HOME = false;
         ScriptDetailFragment fragment = new ScriptDetailFragment();
         Bundle arguments = new Bundle();
+        scriptId = id;
         arguments.putString("id", id);
         fragment.setArguments(arguments);
 
@@ -87,6 +99,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             showMainScreen();
         else
             finish();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("script_id", scriptId);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
