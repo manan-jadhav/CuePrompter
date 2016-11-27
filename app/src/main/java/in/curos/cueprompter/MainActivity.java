@@ -8,6 +8,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import in.curos.cueprompter.data.Script;
 import in.curos.cueprompter.data.ScriptsProvider;
@@ -48,11 +49,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     protected void onResume() {
-        super.onResume();
         if (DUAL_SCREEN_MODE)
             getSupportLoaderManager().restartLoader(0, null, this);
-        else
-            showMainScreen();
+        super.onResume();
     }
 
     public void showMainScreen()
