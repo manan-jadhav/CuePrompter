@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+  <string name="ga_trackingId">UA-88111612-1</string>
+  <string name="ga_autoActivityTracking">true</string>
+  <screenName name="in.curos.cueprompter.MainActivity">Home</screenName>
+  <screenName name="in.curos.cueprompter.ScriptDetailFragment">Script Details</screenName>
+  <screenName name="in.curos.cueprompter.AddScriptActivity">Add Script</screenName>
+  <screenName name="in.curos.cueprompter.EditScriptActivity">Edit Script</screenName>
+  <screenName name="in.curos.cueprompter.ScriptListFragment">Script List</screenName>
+  <screenName name="in.curos.cueprompter.TeleprompterActivity">Teleprompter</screenName>
+</resources>

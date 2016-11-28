@@ -41,6 +41,8 @@ public class EditScriptActivity extends AppCompatActivity implements LoaderManag
         scriptContentLayout = (TextInputLayout) findViewById(R.id.script_content_container);
 
         getSupportLoaderManager().initLoader(0, null, this);
+
+        ((Application) getApplication()).startTracking();
     }
 
     public void save()

@@ -19,7 +19,6 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -85,6 +84,8 @@ public class TeleprompterActivity extends AppCompatActivity implements LoaderMan
         setupDisplay();
 
         getSupportLoaderManager().initLoader(0, null, this);
+
+        ((Application) getApplication()).startTracking();
     }
 
     public void showColorSchemeChooser(View v)

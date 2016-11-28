@@ -16,7 +16,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -69,7 +68,7 @@ public class ScriptDetailFragment extends Fragment implements LoaderManager.Load
         scriptId = getArguments().getString("id");
         activity = ((MainActivity) getActivity());
         actionBar = activity.getSupportActionBar();
-        if (! activity.isDualScreen()) {
+        if (!activity.isDualScreen()) {
             actionBar.setTitle(getString(R.string.script_details));
             actionBar.setDisplayHomeAsUpEnabled(true);
             playButton.setVisibility(View.VISIBLE);
@@ -86,6 +85,7 @@ public class ScriptDetailFragment extends Fragment implements LoaderManager.Load
         setHasOptionsMenu(true);
 
         getActivity().getSupportLoaderManager().initLoader((int) Long.parseLong(scriptId), null, this);
+        ((Application) getActivity().getApplication()).startTracking();
     }
 
     @Override

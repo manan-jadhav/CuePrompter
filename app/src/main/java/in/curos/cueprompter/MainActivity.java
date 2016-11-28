@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         } else {
             showMainScreen();
         }
+
+        ((Application) getApplication()).startTracking();
     }
 
     @Override

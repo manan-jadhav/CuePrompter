@@ -49,6 +49,8 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
+
+        ((Application) getActivity().getApplication()).startTracking();
     }
 
     @Override

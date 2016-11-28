@@ -25,4 +25,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.+'
     compile 'com.android.support:recyclerview-v7:23.+'
     compile 'com.android.support:design:23.+'
+    compile 'com.google.android.gms:play-services-analytics:10.0.0'
+    compile 'com.google.android.gms:play-services-ads:10.0.0'
 }

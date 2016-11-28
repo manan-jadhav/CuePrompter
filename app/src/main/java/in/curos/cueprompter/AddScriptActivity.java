@@ -29,6 +29,8 @@ public class AddScriptActivity extends AppCompatActivity {
 
         scriptTitleLayout = (TextInputLayout) findViewById(R.id.script_title_container);
         scriptContentLayout = (TextInputLayout) findViewById(R.id.script_content_container);
+
+        ((Application) getApplication()).startTracking();
     }
 
     private void save()
