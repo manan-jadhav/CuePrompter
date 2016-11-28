@@ -81,7 +81,6 @@ public class TeleprompterActivity extends AppCompatActivity implements LoaderMan
         setContentView(R.layout.activity_teleprompter);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPreferences.edit().remove(PLAY_SPEED).commit();
         backgroundColor = getSchemeColor(sharedPreferences.getString(COLOR_SCHEME, BLACK));
         textSize = sharedPreferences.getInt(TEXT_SIZE, 46);
         playSpeed = sharedPreferences.getInt(PLAY_SPEED, 1);
@@ -98,6 +97,11 @@ public class TeleprompterActivity extends AppCompatActivity implements LoaderMan
         setupDisplay();
 
         getSupportLoaderManager().initLoader(0, null, this);
+
+        sharedPreferences.edit().putString("recent_script_id", scriptId).apply();
+        Intent intent = new Intent(this, RecentScriptWidgetProvider.class);
+        intent.setAction(getString(R.string.recent_script_updated));
+        sendBroadcast(intent);
 
         tracker = ((Application) getApplication()).startTracking();
         sendSpeedEvent(playSpeed, "used");

@@ -25,11 +25,23 @@
         android:authorities="@string/content_provider_authority"
         android:exported="false"/>
 
+    <receiver android:name=".RecentScriptWidgetProvider" android:label="@string/app_name">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+        <action android:name="in.curos.cueprompter.RECENT_SCRIPT_UPDATED" />
+      </intent-filter>
+      <meta-data android:name="android.appwidget.provider" android:resource="@xml/recent_script_widget"/>
+    </receiver>
+
+    <service
+        android:name=".RecentScriptWidgetProvider$WidgetUpdater"
+        android:permission="android.permission.BIND_REMOTEVIEWS" />
+
     <activity android:name=".AddScriptActivity">
     </activity>
     <activity android:name=".EditScriptActivity">
     </activity>
-    <activity android:name=".TeleprompterActivity" android:launchMode="singleInstance" android:theme="@style/TelePrompter">
+    <activity android:name=".TeleprompterActivity" android:launchMode="singleTask" android:theme="@style/TelePrompter">
     </activity>
   </application>
 

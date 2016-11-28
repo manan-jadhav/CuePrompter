@@ -17,4 +17,6 @@
   <string name="add_dummy_content">Add Dummy Content</string>
   <string name="return_to_cueprompter">Return to CuePrompter</string>
   <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+  <string name="no_recent_scripts">No Recent Scripts Used</string>
+  <string name="recent_script_updated">in.curos.cueprompter.RECENT_SCRIPT_UPDATED</string>
 </resources>

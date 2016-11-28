@@ -5,4 +5,5 @@
   <dimen name="swipe_delete_icon_size">24dp</dimen>
   <dimen name="swipe_undo_text_size">18sp</dimen>
   <dimen name="swipe_delete_icon_margin">16dp</dimen>
+  <dimen name="widget_margin">14dp</dimen>
 </resources>

@@ -1,5 +1,6 @@
 package in.curos.cueprompter;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,6 +48,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             MAIN_FRAGMENT_CONTAINER = LEFT_FRAGMENT_CONTAINER;
         }
 
+        // Intent is passed when this activity is created by clicking widget
+        Intent intent = getIntent();
+        if (intent.getExtras() != null)
+            scriptId = intent.getExtras().getString("script_id");
+
+        // When the screen is rotated
         if (savedInstanceState != null) {
             scriptId = savedInstanceState.getString("script_id");
         }
