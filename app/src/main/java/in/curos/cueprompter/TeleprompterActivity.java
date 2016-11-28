@@ -1,8 +1,16 @@
 package in.curos.cueprompter;
 
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,6 +22,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
@@ -94,6 +103,12 @@ public class TeleprompterActivity extends AppCompatActivity implements LoaderMan
         sendSpeedEvent(playSpeed, "used");
         sendSizeEvent(textSize, "used");
         sendColorSchemeEvent(sharedPreferences.getString(COLOR_SCHEME, BLACK), "used");
+    }
+
+    @Override
+    protected void onDestroy() {
+        ((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).cancel(0);
+        super.onDestroy();
     }
 
     public void showColorSchemeChooser(View v)
@@ -253,6 +268,18 @@ public class TeleprompterActivity extends AppCompatActivity implements LoaderMan
         data.moveToFirst();
         Script script = Script.populate(data);
         content.setText(script.getContent());
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, getIntent(), PendingIntent.FLAG_CANCEL_CURRENT);
+
+        Notification notification = new NotificationCompat.Builder(this)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                .setSmallIcon(R.drawable.ic_play_circle_outline_white_24dp)
+                .setContentTitle(script.getTitle())
+                .setContentText(getString(R.string.return_to_cueprompter))
+                .setContentIntent(pendingIntent)
+                .build();
+
+        ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).notify(0, notification);
     }
 
     @Override
