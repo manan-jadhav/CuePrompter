@@ -6,8 +6,6 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Logger;
 import com.google.android.gms.analytics.Tracker;
 
-import java.util.HashMap;
-
 import in.curos.cueprompter.data.CuePrompterContract;
 
 /**
