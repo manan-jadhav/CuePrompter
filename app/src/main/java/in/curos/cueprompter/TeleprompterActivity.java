@@ -21,6 +21,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.text.DecimalFormat;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -59,6 +62,8 @@ public class TeleprompterActivity extends AppCompatActivity implements LoaderMan
     private TimerTask timerTask;
     private Timer timer = new Timer();
 
+    private Tracker tracker;
+
     private DecimalFormat speedFormat = new DecimalFormat("#.#");
 
     @Override
@@ -85,7 +90,10 @@ public class TeleprompterActivity extends AppCompatActivity implements LoaderMan
 
         getSupportLoaderManager().initLoader(0, null, this);
 
-        ((Application) getApplication()).startTracking();
+        tracker = ((Application) getApplication()).startTracking();
+        sendSpeedEvent(playSpeed, "used");
+        sendSizeEvent(textSize, "used");
+        sendColorSchemeEvent(sharedPreferences.getString(COLOR_SCHEME, BLACK), "used");
     }
 
     public void showColorSchemeChooser(View v)
@@ -142,18 +150,22 @@ public class TeleprompterActivity extends AppCompatActivity implements LoaderMan
             case "text_size_increase":
                 textSize += 4;
                 editor.putInt(TEXT_SIZE, textSize);
+                sendSizeEvent(textSize, "changed");
                 break;
             case "text_size_decrease":
                 textSize -= 4;
                 editor.putInt(TEXT_SIZE, textSize);
+                sendSizeEvent(textSize, "changed");
                 break;
             case "speed_increase":
                 playSpeed += 1;
                 editor.putInt(PLAY_SPEED, playSpeed);
+                sendSpeedEvent(playSpeed, "changed");
                 break;
             case "speed_decrease":
                 playSpeed -= 1;
                 editor.putInt(PLAY_SPEED, playSpeed);
+                sendSpeedEvent(playSpeed, "changed");
                 break;
             case "play":
                 play.setVisibility(View.GONE);
@@ -170,6 +182,33 @@ public class TeleprompterActivity extends AppCompatActivity implements LoaderMan
         }
         editor.commit();
         setupDisplay();
+    }
+
+    public void sendSpeedEvent(int speed, String action)
+    {
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("playSpeed")
+                .setAction(action)
+                .setLabel(String.valueOf(speed))
+                .build());
+    }
+
+    public void sendSizeEvent(int size, String action)
+    {
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("textSize")
+                .setAction(action)
+                .setLabel(String.valueOf(size))
+                .build());
+    }
+
+    public void sendColorSchemeEvent(String scheme, String action)
+    {
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("colorScheme")
+                .setAction(action)
+                .setLabel(scheme)
+                .build());
     }
 
     public void play()
@@ -199,6 +238,7 @@ public class TeleprompterActivity extends AppCompatActivity implements LoaderMan
         .putString("color_scheme", scheme)
         .apply();
 
+        sendColorSchemeEvent(scheme, "changed");
         setupDisplay();
         dialog.dismiss();
     }
