@@ -18,6 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -51,6 +55,11 @@ public class ScriptDetailFragment extends Fragment implements LoaderManager.Load
         contents = (TextView) view.findViewById(R.id.script_content);
 
         playButton = (FloatingActionButton) view.findViewById(R.id.play_fab);
+
+
+        AdView adView = (AdView) view.findViewById(R.id.script_details_banner_ad);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
 
         return view;
     }

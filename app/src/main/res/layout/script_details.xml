@@ -6,7 +6,6 @@
   <ScrollView
       android:layout_width="match_parent"
       android:layout_height="match_parent">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +22,7 @@
           android:textAllCaps="true"
           android:textSize="16sp"
           android:textStyle="bold"/>
-
+      
       <TextView
           android:id="@+id/script_content"
           android:layout_width="match_parent"
@@ -31,13 +30,21 @@
           android:textSize="24sp"/>
     </LinearLayout>
   </ScrollView>
+  <com.google.android.gms.ads.AdView
+      xmlns:ads="http://schemas.android.com/apk/res-auto"
+      ads:adSize="BANNER"
+      ads:adUnitId="@string/banner_ad_unit_id"
+      android:id="@+id/script_details_banner_ad"
+      android:layout_alignParentBottom="true"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
   <android.support.design.widget.FloatingActionButton
       xmlns:app="http://schemas.android.com/apk/res-auto"
       android:id="@+id/play_fab"
       android:visibility="gone"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true"
+      android:layout_above="@id/script_details_banner_ad"
       android:layout_alignParentRight="true"
       android:layout_margin="16dp"
       android:src="@drawable/ic_play_circle_outline_white_24dp"

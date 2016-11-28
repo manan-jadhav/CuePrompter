@@ -15,4 +15,5 @@
   <string name="select_item">Select Script from the list to see details</string>
   <string name="choose_color">Choose Color Scheme</string>
   <string name="add_dummy_content">Add Dummy Content</string>
+  <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 </resources>

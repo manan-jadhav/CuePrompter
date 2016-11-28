@@ -25,6 +25,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -92,6 +96,10 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
                 startActivity(intent);
             }
         });
+
+        AdView adView = (AdView) root.findViewById(R.id.script_list_banner_ad);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
 
         return root;
     }
