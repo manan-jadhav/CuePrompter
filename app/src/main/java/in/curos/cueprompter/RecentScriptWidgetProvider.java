@@ -75,15 +75,9 @@ public class RecentScriptWidgetProvider extends AppWidgetProvider {
             Intent openActivityIntent = new Intent(context, MainActivity.class);
 
             if (scriptId.equals("no_recent")) {
-                PendingIntent pendingIntent = PendingIntent.getActivity(
-                        context,
-                        widgetId,
-                        openActivityIntent,
-                        PendingIntent.FLAG_CANCEL_CURRENT);
-
-                views.setOnClickPendingIntent(R.id.content_container, pendingIntent);
-                views.setTextViewText(R.id.script_title, getString(R.string.no_recent_scripts));
+                showNoRecentScripts(widgetId, openActivityIntent, views);
             } else {
+
                 Cursor values = getContentResolver().query(
                         ScriptsProvider.SCRIPT_BASE_URI.buildUpon().appendPath(scriptId).build(),
                         null,
@@ -92,24 +86,43 @@ public class RecentScriptWidgetProvider extends AppWidgetProvider {
                         null
                 );
                 values.moveToFirst();
-                Script script = Script.populate(values);
-                values.close();
 
-                openActivityIntent.putExtra("script_id", scriptId);
+                if (values.getCount() == 0) {
+                    showNoRecentScripts(widgetId, openActivityIntent, views);
+                } else {
 
-                PendingIntent pendingIntent = PendingIntent.getActivity(
-                        context,
-                        widgetId,
-                        openActivityIntent,
-                        PendingIntent.FLAG_CANCEL_CURRENT);
+                    Script script = Script.populate(values);
+                    values.close();
 
-                views.setOnClickPendingIntent(R.id.content_container, pendingIntent);
-                views.setTextViewText(R.id.script_title, script.getTitle());
-                views.setTextViewText(R.id.script_content_excerpt, script.getContent());
-                calendar.setTimeInMillis(script.getTimestamp()*1000);
-                views.setTextViewText(R.id.script_date, format.format(calendar.getTime()));
+                    openActivityIntent.putExtra("script_id", scriptId);
+
+                    PendingIntent pendingIntent = PendingIntent.getActivity(
+                            context,
+                            widgetId,
+                            openActivityIntent,
+                            PendingIntent.FLAG_CANCEL_CURRENT);
+
+                    views.setOnClickPendingIntent(R.id.content_container, pendingIntent);
+                    views.setTextViewText(R.id.script_title, script.getTitle());
+                    views.setTextViewText(R.id.script_content_excerpt, script.getContent());
+                    calendar.setTimeInMillis(script.getTimestamp() * 1000);
+                    views.setTextViewText(R.id.script_date, format.format(calendar.getTime()));
+                }
             }
             appWidgetManager.updateAppWidget(widgetId, views);
+        }
+
+
+        private void showNoRecentScripts(int widgetId, Intent openActivityIntent, RemoteViews views)
+        {
+            PendingIntent pendingIntent = PendingIntent.getActivity(
+                    getApplicationContext(),
+                    widgetId,
+                    openActivityIntent,
+                    PendingIntent.FLAG_CANCEL_CURRENT);
+
+            views.setOnClickPendingIntent(R.id.content_container, pendingIntent);
+            views.setTextViewText(R.id.script_title, getString(R.string.no_recent_scripts));
         }
     }
 }

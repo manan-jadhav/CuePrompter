@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -15,11 +16,16 @@ public class AddScriptActivity extends AppCompatActivity {
 
     private TextView scriptTitle, scriptContent;
     private TextInputLayout scriptTitleLayout, scriptContentLayout;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_script);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
 
         getSupportActionBar().setTitle(getString(R.string.add_script));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
