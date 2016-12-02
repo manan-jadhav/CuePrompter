@@ -19,4 +19,10 @@
   <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
   <string name="no_recent_scripts">No Recent Scripts Used</string>
   <string name="recent_script_updated">in.curos.cueprompter.RECENT_SCRIPT_UPDATED</string>
+  <string name="reduce_speed">Reduce Speed</string>
+  <string name="increase_speed">Increase Speed</string>
+  <string name="reduce_size">Reduce Size</string>
+  <string name="increase_size">Increase Size</string>
+  <string name="play">Play</string>
+  <string name="pause">Pause</string>
 </resources>

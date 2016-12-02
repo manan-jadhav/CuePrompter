@@ -1,77 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
+    android:orientation="vertical"
+    android:padding="@dimen/teleprompter_activity_padding"
     tools:context="in.curos.cueprompter.TeleprompterActivity">
+
   <ImageView
-      android:tag="speed_decrease"
-      android:id="@+id/reduce_speed"
-      android:layout_alignParentBottom="true"
-      android:layout_alignParentLeft="true"
       style="@style/TelePrompter.PropertyIcon"
-      android:src="@drawable/ic_fast_rewind_white_24dp"/>
-  <TextView
-      android:layout_alignParentBottom="true"
-      android:id="@+id/speed_display"
-      style="@style/TelePrompter.PropertyStatus"
-      android:layout_toRightOf="@id/reduce_speed"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"/>
-  <ImageView
-      android:tag="speed_increase"
-      style="@style/TelePrompter.PropertyIcon"
-      android:src="@drawable/ic_fast_forward_white_24dp"
-      android:layout_alignParentBottom="true"
-      android:layout_toRightOf="@+id/speed_display"/>
-  <ImageView
-      android:tag="play"
-      android:id="@+id/play"
-      style="@style/TelePrompter.PropertyIcon"
-      android:src="@drawable/ic_play_circle_outline_white_24dp"
-      android:layout_alignParentBottom="true"
-      android:layout_centerHorizontal="true"/>
-  <ImageView
-      android:visibility="gone"
-      android:tag="pause"
-      android:id="@+id/pause"
-      style="@style/TelePrompter.PropertyIcon"
-      android:src="@drawable/ic_pause_circle_outline_white_24dp"
-      android:layout_alignParentBottom="true"
-      android:layout_centerHorizontal="true"/>
-  <ImageView
-      android:tag="text_size_decrease"
-      android:id="@+id/decrease_size"
-      style="@style/TelePrompter.PropertyIcon"
-      android:src="@drawable/ic_zoom_out_white_24dp"
-      android:layout_alignParentBottom="true"
-      android:layout_alignParentRight="true"/>
-  <TextView
-      android:layout_alignParentBottom="true"
-      android:id="@+id/size_display"
-      android:layout_toLeftOf="@id/decrease_size"
-      style="@style/TelePrompter.PropertyStatus"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"/>
-  <ImageView
-      android:tag="text_size_increase"
-      android:layout_alignParentBottom="true"
-      android:layout_toLeftOf="@id/size_display"
-      style="@style/TelePrompter.PropertyIcon"
-      android:src="@drawable/ic_zoom_in_white_24dp"/>
-    <TextView
-        android:id="@+id/content"
-        android:layout_above="@id/decrease_size"
-        android:scrollbars="vertical"
-        android:gravity="center_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-  <ImageView
+      android:layout_gravity="end"
+      android:contentDescription="@string/choose_color"
       android:onClick="showColorSchemeChooser"
-      android:layout_alignParentTop="true"
-      android:layout_alignParentRight="true"
-      style="@style/TelePrompter.PropertyIcon"
       android:src="@drawable/ic_color_lens_white_24dp"/>
-</RelativeLayout>
+
+  <TextView
+      android:id="@+id/content"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:gravity="center_horizontal"
+      android:scrollbars="vertical"/>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:orientation="horizontal">
+
+      <ImageView
+          android:id="@+id/reduce_speed"
+          style="@style/TelePrompter.PropertyIcon"
+          android:contentDescription="@string/reduce_speed"
+          android:src="@drawable/ic_fast_rewind_white_24dp"
+          android:tag="speed_decrease"/>
+
+      <TextView
+          android:id="@+id/speed_display"
+          style="@style/TelePrompter.PropertyStatus"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"/>
+
+      <ImageView
+          style="@style/TelePrompter.PropertyIcon"
+          android:contentDescription="@string/increase_speed"
+          android:src="@drawable/ic_fast_forward_white_24dp"
+          android:tag="speed_increase"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/play"
+        style="@style/TelePrompter.PropertyIcon"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/play"
+        android:src="@drawable/ic_play_circle_outline_white_24dp"
+        android:tag="play"/>
+
+    <ImageView
+        android:id="@+id/pause"
+        style="@style/TelePrompter.PropertyIcon"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/pause"
+        android:src="@drawable/ic_pause_circle_outline_white_24dp"
+        android:tag="pause"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:orientation="horizontal">
+
+      <ImageView
+          android:id="@+id/decrease_size"
+          style="@style/TelePrompter.PropertyIcon"
+          android:contentDescription="@string/reduce_size"
+          android:src="@drawable/ic_zoom_out_white_24dp"
+          android:tag="text_size_decrease"/>
+
+      <TextView
+          android:id="@+id/size_display"
+          style="@style/TelePrompter.PropertyStatus"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"/>
+
+      <ImageView
+          style="@style/TelePrompter.PropertyIcon"
+          android:contentDescription="@string/increase_size"
+          android:src="@drawable/ic_zoom_in_white_24dp"
+          android:tag="text_size_increase"/>
+    </LinearLayout>
+  </LinearLayout>
+</LinearLayout>

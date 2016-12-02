@@ -1,48 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<HorizontalScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_width="match_parent">
-  <HorizontalScrollView
-      android:scrollbarSize="2dp"
+    android:scrollbarSize="2dp">
+
+  <LinearLayout
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content">
-    <LinearLayout
-        android:scrollbars="horizontal"
-        android:scrollbarAlwaysDrawHorizontalTrack="true"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-      <TextView
-          android:tag="black"
-          android:onClick="setScheme"
-          style="@style/ColorScheme"
-          android:background="@color/schemeBlackBg"/>
-      <TextView
-          android:tag="teal"
-          android:onClick="setScheme"
-          style="@style/ColorScheme"
-          android:background="@color/schemeTealBg"/>
-      <TextView
-          android:tag="cyan"
-          android:onClick="setScheme"
-          style="@style/ColorScheme"
-          android:background="@color/schemeCyanBg"/>
-      <TextView
-          android:tag="red"
-          android:onClick="setScheme"
-          style="@style/ColorScheme"
-          android:background="@color/schemeRedBg"/>
-      <TextView
-          android:tag="indigo"
-          android:onClick="setScheme"
-          style="@style/ColorScheme"
-          android:background="@color/schemeIndigoBg"/>
-      <TextView
-          android:tag="purple"
-          android:onClick="setScheme"
-          style="@style/ColorScheme"
-          android:background="@color/schemePurpleBg"/>
-    </LinearLayout>
-  </HorizontalScrollView>
-</RelativeLayout>
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:scrollbarAlwaysDrawHorizontalTrack="true"
+      android:scrollbars="horizontal">
+
+    <TextView
+        style="@style/ColorScheme"
+        android:background="@color/schemeBlackBg"
+        android:onClick="setScheme"
+        android:tag="black"/>
+
+    <TextView
+        style="@style/ColorScheme"
+        android:background="@color/schemeTealBg"
+        android:onClick="setScheme"
+        android:tag="teal"/>
+
+    <TextView
+        style="@style/ColorScheme"
+        android:background="@color/schemeCyanBg"
+        android:onClick="setScheme"
+        android:tag="cyan"/>
+
+    <TextView
+        style="@style/ColorScheme"
+        android:background="@color/schemeRedBg"
+        android:onClick="setScheme"
+        android:tag="red"/>
+
+    <TextView
+        style="@style/ColorScheme"
+        android:background="@color/schemeIndigoBg"
+        android:onClick="setScheme"
+        android:tag="indigo"/>
+
+    <TextView
+        style="@style/ColorScheme"
+        android:background="@color/schemePurpleBg"
+        android:onClick="setScheme"
+        android:tag="purple"/>
+  </LinearLayout>
+</HorizontalScrollView>

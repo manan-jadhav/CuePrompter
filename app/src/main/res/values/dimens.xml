@@ -6,4 +6,8 @@
   <dimen name="swipe_undo_text_size">18sp</dimen>
   <dimen name="swipe_delete_icon_margin">16dp</dimen>
   <dimen name="widget_margin">14dp</dimen>
+  <dimen name="teleprompter_activity_padding">8dp</dimen>
+  <dimen name="script_list_item_horizontal_padding">16dp</dimen>
+  <dimen name="script_list_item_vertical_spacing">8dp</dimen>
+  <dimen name="script_list_item_vertical_line_spacing">8dp</dimen>
 </resources>
