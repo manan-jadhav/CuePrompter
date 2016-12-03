@@ -57,6 +57,15 @@
     <item name="android:lines">1</item>
   </style>
 
+  <style name="AppTheme.SearchResultTitle">
+    <item name="android:textColor">@color/textPrimaryDark</item>
+    <item name="android:alpha">0.64</item>
+    <item name="android:textSize">24sp</item>
+    <item name="android:lines">1</item>
+    <item name="android:ellipsize">end</item>
+    <item name="android:fontFamily">sans-serif-condensed</item>
+  </style>
+
   <style name="TelePrompter.PropertyIcon">
     <item name="android:layout_width">28dp</item>
     <item name="android:layout_height">28dp</item>

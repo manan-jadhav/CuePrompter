@@ -10,4 +10,5 @@
   <dimen name="script_list_item_horizontal_padding">16dp</dimen>
   <dimen name="script_list_item_vertical_spacing">8dp</dimen>
   <dimen name="script_list_item_vertical_line_spacing">8dp</dimen>
+  <dimen name="search_item_padding">16dp</dimen>
 </resources>

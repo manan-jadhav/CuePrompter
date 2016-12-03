@@ -27,4 +27,5 @@ dependencies {
     compile 'com.android.support:design:23.+'
     compile 'com.google.android.gms:play-services-analytics:10.0.0'
     compile 'com.google.android.gms:play-services-ads:10.0.0'
+    compile 'com.squareup.okhttp3:okhttp:3.5.0'
 }

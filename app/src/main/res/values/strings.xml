@@ -25,4 +25,9 @@
   <string name="increase_size">Increase Size</string>
   <string name="play">Play</string>
   <string name="pause">Pause</string>
+  <string name="or">OR</string>
+  <string name="search_on_wikisource">Search on WikiSource</string>
+  <string name="search">Search</string>
+  <string name="default_search_value">Peace</string>
+  <string name="search_error">Oops! Something went wrong…</string>
 </resources>
