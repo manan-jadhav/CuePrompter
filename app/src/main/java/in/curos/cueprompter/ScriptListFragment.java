@@ -250,6 +250,8 @@ public class ScriptListFragment extends Fragment implements LoaderManager.Loader
             } else {
                 if (dualScreenMode && selected == position) {
                     holder.contentContainer.setBackgroundColor(getResources().getColor(R.color.divider));
+                } else {
+                    holder.contentContainer.setBackgroundColor(getResources().getColor(android.R.color.transparent));
                 }
                 holder.undo.setVisibility(View.GONE);
                 holder.contentContainer.setVisibility(View.VISIBLE);
