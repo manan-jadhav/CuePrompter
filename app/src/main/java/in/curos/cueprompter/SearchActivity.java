@@ -1,13 +1,19 @@
 package in.curos.cueprompter;
 
+import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.speech.tts.Voice;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,10 +21,17 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
+import java.io.IOException;
+
+import in.curos.cueprompter.data.CuePrompterContract;
+import in.curos.cueprompter.data.ScriptsProvider;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -31,6 +44,8 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     SearchResultAdapter adapter;
 
     String query;
+
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +62,11 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         adapter = new SearchResultAdapter(this);
         list.setAdapter(adapter);
         list.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage(getString(R.string.please_wait));
+        progressDialog.setCancelable(false);
     }
 
     @Override
@@ -78,6 +98,18 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         return true;
     }
 
+    public void showLoading()
+    {
+        loading.setVisibility(View.VISIBLE);
+        status.setVisibility(View.GONE);
+        list.setVisibility(View.GONE);
+    }
+
+    public void fetchScript(String title)
+    {
+        (new AddScriptTask()).execute(title);
+    }
+
     @Override
     public boolean onQueryTextChange(String newText) {
         return false;
@@ -96,9 +128,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
         @Override
         protected void onPreExecute() {
-            loading.setVisibility(View.VISIBLE);
-            status.setVisibility(View.GONE);
-            list.setVisibility(View.GONE);
+            showLoading();
         }
 
         @Override
@@ -135,6 +165,48 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
                 adapter.setArray(jsonArray);
                 list.setVisibility(View.VISIBLE);
                 status.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    public class AddScriptTask extends AsyncTask<String, Void, String> {
+
+        String url = "https://en.wikisource.org/api/rest_v1/page/html/";
+
+        String title;
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            title = strings[0];
+            String text = null;
+            try {
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder().url(url.concat(title)).get().build();
+                Response response = client.newCall(request).execute();
+                text = Jsoup.parse(response.body().string()).body().text();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return text;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if (s == null) {
+                progressDialog.hide();
+                Toast.makeText(getApplicationContext(), R.string.search_error, Toast.LENGTH_SHORT).show();
+            } else {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(CuePrompterContract.ScriptEntry.TITLE, title);
+                contentValues.put(CuePrompterContract.ScriptEntry.CONTENT, s);
+                getContentResolver().insert(ScriptsProvider.SCRIPTS_BASE_URI, contentValues);
+
+                finish();
             }
         }
     }

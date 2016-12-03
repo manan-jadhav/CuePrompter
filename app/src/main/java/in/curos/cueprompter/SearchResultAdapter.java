@@ -1,6 +1,7 @@
 package in.curos.cueprompter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +17,10 @@ import org.json.JSONObject;
  */
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.VH> {
 
-    private Context context;
+    private SearchActivity context;
     private JSONArray array = new JSONArray();
 
-    SearchResultAdapter(Context context) {
+    SearchResultAdapter(SearchActivity context) {
         this.context = context;
     }
 
@@ -41,6 +42,13 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             JSONObject page = array.getJSONObject(position);
             title = page.getString("page_title");
             title = title.replace('_', ' ');
+            final String finalTitle = title;
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    context.fetchScript(finalTitle);
+                }
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }

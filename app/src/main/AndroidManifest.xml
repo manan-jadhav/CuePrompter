@@ -44,9 +44,11 @@
 
     <activity
         android:name=".AddScriptActivity"
+        android:noHistory="true"
         android:theme="@style/AppTheme.NoActionBar">
     </activity>
-    <activity android:name=".EditScriptActivity">
+    <activity android:name=".EditScriptActivity"
+              android:theme="@style/AppTheme.NoActionBar">
     </activity>
     <activity
         android:name=".TeleprompterActivity"

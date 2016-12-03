@@ -8,6 +8,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -24,11 +25,16 @@ public class EditScriptActivity extends AppCompatActivity implements LoaderManag
     private TextInputLayout scriptTitleLayout, scriptContentLayout;
 
     private Script script;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_script);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
 
         scriptId = getIntent().getExtras().getString("id");
         getSupportActionBar().setTitle(getString(R.string.edit_script));
