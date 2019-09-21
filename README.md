@@ -4,9 +4,10 @@
 A cue prompter app for Android!
 
 ## Screenshots
+| Home Screen | View Script | Edit Script |
+| - | - | - |
+| ![](./screenshots/1.jpg) | ![](./screenshots/2.jpg) | ![](./screenshots/3.jpg) |
 
-<img src="./screenshots/1.jpg"  width="300px"/>
-<img src="./screenshots/2.jpg"  width="300px"/>
-<img src="./screenshots/3.jpg"  width="300px"/>
-<img src="./screenshots/4.jpg"  width="300px"/>
-<img src="./screenshots/5.jpg"  width="300px"/>
+| Cue prompter | Adjust color scheme |
+| - | - |
+| ![](./screenshots/4.jpg) | ![](./screenshots/5.jpg) |
